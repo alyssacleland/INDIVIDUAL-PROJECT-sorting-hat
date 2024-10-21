@@ -1,4 +1,4 @@
-//elements to pass into renderToDom function
+////////////////elements to pass into renderToDom function//////////////////
 let bootstrapIntro = `<div class="card text-center">
       <div class="card-header">Welcome</div>
       <div class="card-body">
@@ -21,20 +21,6 @@ let bootstrapForm = `<form>
 </div>
 <button type="submit" class="btn btn-primary id="submitButton">Submit</button>
 </form>`;
-
-// `<div class="row g-3 align-items-center">
-//   <div class="col-auto">
-//     <label for="inputPassword6" class="col-form-label">Type your name</label>
-//   </div>
-//   <div class="col-auto">
-//     <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
-//   </div>
-//   <div class="col-auto">
-//     <span id="passwordHelpInline" class="form-text">
-//       (this line will display an error msg when empty form is submitted)
-//     </span>
-//   </div>
-// </div>`;
 
 //obj array for testing later
 const firstYears = [
