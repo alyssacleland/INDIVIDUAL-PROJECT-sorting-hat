@@ -1,5 +1,29 @@
-////////////////elements to pass into renderToDom function//////////////////
-let bootstrapIntro = `<div class="card text-center">
+//array of objects
+const firstYears = [
+  {
+    name: "Test",
+    house: "Gryffindor",
+    id: 1,
+  },
+  {
+    name: "Test 2",
+    house: "Ravenclaw",
+    id: 2,
+  },
+];
+
+//setting the location
+const targetingApp = document.querySelector("#app");
+
+//function to put the bootstrap elements in the HTML
+const renderToDom = (element) => {
+  targetingApp.innerHTML += element;
+};
+
+//************************************//
+//*******INTRO HEADER AND BUTTON******//
+//************************************//
+renderToDom(`<div class="card text-center">
       <div class="card-header">Welcome</div>
       <div class="card-body">
         <h5 class="card-title">Sorting Hat</h5>
@@ -11,13 +35,46 @@ let bootstrapIntro = `<div class="card text-center">
         </a>
       </div>
       <div class="card-footer text-muted"></div>
-    </div>`;
+    </div>`);
 
-let bootstrapForm =
-  // prettier-ignore.. (even though i don't think that's doing anything)
-  ///////input includes required
-  ////////a div with id of formError with a line that shows when empty string is submitted
-  `\<form>
+//************************************//
+//**********CARDS ON DOM**************//
+//************************************//
+
+//loop to get all the objects from firstYears array into the HTML. i'll need to change this to .map() later
+////todolist
+const cardsOnDom = (array) => {
+  let domString = "";
+  for (const person of array) {
+    domString += `<div class="card" style="width: 18rem;">
+<img src="..." class="card-img-top" alt="...">
+<div class="card-body">
+  <h5 class="card-title">${person.name}</h5>
+  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  <a href="#" class="btn btn-primary">Go somewhere</a>
+</div>
+</div>`;
+  }
+  document.querySelector("#cards").innerHTML = domString;
+};
+
+//************************************//
+//**********FILTER BY HOUSE***********//
+//************************************//
+
+////////TODOLIST
+
+//************************************//
+//******* FORM and DEFAULT CARDS******//
+//************************************//
+
+// Variable for intro button
+const introButton = document.getElementById("introButton");
+
+//event listener to get the form and existing cards to show up when intro button is clicked
+introButton.addEventListener("click", () => {
+  //form
+  renderToDom(`<form>
     <div class="mb-3">
       <label for="inputName" class="form-label">Enter your name:</label>
       <input 
@@ -32,115 +89,54 @@ let bootstrapForm =
       </div>
     </div>
     <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
-  </form>`;
-
-let bootstrapCard = `<div class="card" style="width: 18rem;">
-  <img src="..." class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>`;
-
-//obj array for testing later
-const firstYears = [
-  {
-    name: "Test",
-    house: "Gryffindor",
-    id: "1",
-  },
-  {
-    name: "Test 2",
-    house: "Ravenclaw",
-    id: "2",
-  },
-];
-//************************************//
-//**********INTRO BUTTON**************//
-//************************************//
-
-//setting the location
-const targetingApp = document.querySelector("#app");
-
-//function to put the bootstrap card in the HTML
-const renderToDom = (element) => {
-  targetingApp.innerHTML += element;
-};
-renderToDom(bootstrapIntro);
-
-//************************************//
-//**********FORM**********************//
-//************************************//
-
-//add an event listener to the intro button to get the form to show up when clicked. prob do that by listening for click on that specific id and when that happens, pass the form element into renderToDom function
-
-//let's assign that button to a variable for ease of readability
-const introButton = document.getElementById("introButton");
-
-//event listener to get the form to show up when intro button is clicked
-introButton.addEventListener("click", () => {
-  renderToDom(bootstrapForm);
-  const cardsOnDom = (array) => {
-    let domString = "";
-    for (person of array) {
-      domString += `<div class="card" style="width: 18rem;">
-  <img src="..." class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">${person.name}</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>`;
-    }
-    renderToDom(domString);
-  };
+  </form>`);
+  //default cards
   cardsOnDom(firstYears);
-
-  //////////////////////////////////////////
-  ////////////////submitting the form///////
-  //////////////////////////////////////////
-
-  //setting the location
-  // const targetingApp = document.querySelector("#app");
 
   //assign id's from the form to variables
   const inputName = document.querySelector("#inputName");
   const formError = document.querySelector("#formError");
   const submitButton = document.querySelector("#submitButton");
 
+  //////////////////////////////////////////
+  ////////////////submitting the form///////
+  //////////////////////////////////////////
+
   //event listener for submit click
   submitButton.addEventListener("click", (e) => {
-    // e.preventDefault();
+    //prevent form from refresh on submit
+    e.preventDefault();
 
     //hide the error message initially
     formError.style.display = "none";
-    // ////honestly may need to comment this back in. i'm curious. right now if it's added, it gets rid of the browser's error message that came from me putting required for the input in form//prevent refresh when clicked (the default bx of a "submit" button type)
-    //check if inputName is an empty string, and display error message if it is. it's default is "display: none" in the form
+
+    // Check if inputName is an empty string, and display error message if it is
     if (inputName.value === "") {
       formError.style.display = "block";
+
       //else, create that person and render cards to dom
     } else {
-      //************************************//
-      //**********first years on dom**********************//
-      //************************************//
+      //create new firstYear object (new student)
+      const newStudent = {
+        //theis key value works bc above we used query selector to assign specific ids of form to variables (e.g. inputName variable)
+        name: inputName.value,
+        house: "Random House", //placeholder for house assignment logic (todolist)
+        id: firstYears.length + 1,
+      };
 
-      //put default cards on dom for now
-      renderToDom(bootstrapCard);
+      //add new student to firstYears array
+      firstYears.push(newStudent);
+
+      // Re-render the cards on the DOM with the updated array
+      cardsOnDom(firstYears);
+
       //clear the form input
       inputName.value = "";
+
       //ensure the error msg is hidden, just in case the first if happened first
       formError.style.display = "none";
-
-      //************************************//
-      //**********TO DO**********************//
-      //************************************//
-
-      //use .map to loop thru the defaults
-
-      ////create new based on form input, assign a random house
-
-      ///////delete functionality lol
     }
   });
 });
+
+///expel (TODOLIST)
