@@ -1,14 +1,29 @@
+//array of houses
+const houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"];
+
 //array of objects
 const firstYears = [
   {
-    name: "Test",
-    house: "Gryffindor",
+    name: "Harry Potter",
+    house: houses[0],
     id: 1,
   },
   {
-    name: "Test 2",
-    house: "Ravenclaw",
+    name: "Snape, Snape, Sevvverous Snape",
+    house: houses[3],
     id: 2,
+  },
+
+  {
+    name: "burt",
+    house: houses[1],
+    id: 3,
+  },
+
+  {
+    name: "jan",
+    house: houses[2],
+    id: 4,
   },
 ];
 
@@ -41,20 +56,20 @@ renderToDom(`<div class="card text-center">
 //**********CARDS ON DOM**************//
 //************************************//
 
-//loop to get all the objects from firstYears array into the HTML. i'll need to change this to .map() later
-////todolist
+//use .map() to pass the array of firstYears thru arrayAsCards function, which uses interpolation to put the name and (
+//(TODOLIST) add delete button to the card
 const cardsOnDom = (array) => {
   let domString = "";
-  for (const person of array) {
+  const arrayAsCards = (person) => {
     domString += `<div class="card" style="width: 18rem;">
-<img src="..." class="card-img-top" alt="...">
-<div class="card-body">
+<div class="card-body" style="border: 2px solid black; border-radius: 5px;">
   <h5 class="card-title">${person.name}</h5>
-  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  <a href="#" class="btn btn-primary">Go somewhere</a>
+  <p class="card-text">${person.house}</p>
+  <a href="#" class="btn btn-primary">Delete (placeholder for now)</a>
 </div>
 </div>`;
-  }
+  };
+  array.map(arrayAsCards);
   document.querySelector("#cards").innerHTML = domString;
 };
 
@@ -62,7 +77,57 @@ const cardsOnDom = (array) => {
 //**********FILTER BY HOUSE***********//
 //************************************//
 
-////////TODOLIST
+/////function to filter by house
+const filter = (array, house) => {
+  //we will pass firstYears array and a house into the fx
+  const houseArray = []; //create an empty array
+
+  for (const member of array) {
+    if (house === member.house) {
+      //if the house we input is equal to the member's house...
+      houseArray.push(member); //...add them to the array
+    }
+  }
+  return houseArray; //return the array that is populated with members of that house
+};
+
+//////connect the html house buttons to the JS
+const allButton = document.getElementById("all");
+const gryffindorButton = document.getElementById("gryffindor");
+const hufflepuffButton = document.getElementById("hufflepuff");
+const ravenclawButton = document.getElementById("ravenclaw");
+const slytherinButton = document.getElementById("slytherin");
+
+/////event listeners for buttons
+
+//all button... //nervous about this for after a student is expelled? (todolist)
+allButton.addEventListener("click", () => {
+  cardsOnDom(firstYears);
+});
+
+//gryffindor
+gryffindorButton.addEventListener("click", () => {
+  const gryffindorMembers = filter(firstYears, "Gryffindor");
+  cardsOnDom(gryffindorMembers);
+});
+
+//hufflepuff
+hufflepuffButton.addEventListener("click", () => {
+  const hufflepuffMembers = filter(firstYears, "Hufflepuff");
+  cardsOnDom(hufflepuffMembers);
+});
+
+//ravenclaw
+ravenclawButton.addEventListener("click", () => {
+  const ravenclawMembers = filter(firstYears, "Ravenclaw");
+  cardsOnDom(ravenclawMembers);
+});
+
+//slytherin
+slytherinButton.addEventListener("click", () => {
+  const slytherinMembers = filter(firstYears, "Slytherin");
+  cardsOnDom(slytherinMembers);
+});
 
 //************************************//
 //******* FORM and DEFAULT CARDS******//
@@ -90,13 +155,16 @@ introButton.addEventListener("click", () => {
     </div>
     <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
   </form>`);
-  //default cards
-  cardsOnDom(firstYears);
+
+  document.querySelector(".all-buttons").style.display = "block";
 
   //assign id's from the form to variables
   const inputName = document.querySelector("#inputName");
   const formError = document.querySelector("#formError");
   const submitButton = document.querySelector("#submitButton");
+
+  //default cards
+  cardsOnDom(firstYears);
 
   //////////////////////////////////////////
   ////////////////submitting the form///////
@@ -114,13 +182,17 @@ introButton.addEventListener("click", () => {
     if (inputName.value === "") {
       formError.style.display = "block";
 
+      //************************************//
+      //******* CREATE**********************//
+      //************************************//
+
       //else, create that person and render cards to dom
     } else {
       //create new firstYear object (new student)
       const newStudent = {
-        //theis key value works bc above we used query selector to assign specific ids of form to variables (e.g. inputName variable)
+        //this key value works bc above we used query selector to assign specific ids of form to variables (e.g. inputName variable)
         name: inputName.value,
-        house: "Random House", //placeholder for house assignment logic (todolist)
+        house: houses[Math.floor(Math.random() * houses.length)], //assigns new student to a random house!!
         id: firstYears.length + 1,
       };
 
