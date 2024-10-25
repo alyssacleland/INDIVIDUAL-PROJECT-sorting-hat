@@ -59,7 +59,7 @@ renderToDom(`<div class="card text-center">
 //use .map() to pass the array of firstYears thru arrayAsCards function, which uses interpolation to put the name and house on the bootstrap card
 //(TODOLIST) add delete button to the card
 const cardsOnDom = (array) => {
-  let domString = "";
+  let domString = "First Years";
   const arrayAsCards = (person) => {
     domString += `<div class="card" style="width: 18rem;">
 <div class="card-body" style="border: 2px solid black; border-radius: 5px;">
@@ -259,6 +259,7 @@ cards.addEventListener("click", (e) => {
     //also we assign the thing that we removed to a const "removed", so that we can pass it into expelledCardsOnDom
     const removed = firstYears.splice(index, 1);
     //now let's repaint the DOM with our firstYears and our expelled
+    document.querySelector("#expelledCards").style.display = "block";
     cardsOnDom(firstYears);
     expelledCardsOnDom(removed);
   }

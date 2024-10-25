@@ -17,10 +17,11 @@ body {
 }
 
 #cards {
-  border: 5px solid black !important;
-  /* display: none !important; */
+  border: 5px solid black;
+  display: none;
 }
 
 #expelledCards {
-  border: 5px solid black !important;
+  border: 5px solid black;
+  display: none;
 }
