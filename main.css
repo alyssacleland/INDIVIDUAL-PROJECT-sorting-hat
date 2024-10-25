@@ -10,12 +10,17 @@ body {
   display: none; /* Hide house buttons initially. in the js i change display to block when intro button is clicked */
 }
 
-/* #cards {
-  border: 5px solid black !important;
+.container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
-#expelled-cards {
+#cards {
   border: 5px solid black !important;
+  /* display: none !important; */
+}
 
-  nvm, need to do this in the js so border doesn't appear before cards are even called. maybe do this later. gotta do mvp now. back to it k byeeeee
-} */
+#expelledCards {
+  border: 5px solid black !important;
+}
