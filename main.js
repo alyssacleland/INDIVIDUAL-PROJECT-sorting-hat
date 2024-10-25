@@ -78,7 +78,7 @@ const expelledCardsOnDom = (array) => {
   let expelledDomString = "";
   const arrayAsCards = (person) => {
     expelledDomString += `<div class="card" style="width: 18rem;">
-<div class="card-body" style="border: 2px solid black; border-radius: 5px;">
+<div class="card-body" style="border: 2px solid black; border-radius: 5px; background-color: purple; color: limegreen">
   <h5 class="card-title">${person.name}</h5>
   <p class="card-text"></p>
   <p class="card-text"> Oh no! ${person.name} went to the dark side.</p>
