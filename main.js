@@ -56,7 +56,7 @@ renderToDom(`<div class="card text-center">
 //**********CARDS ON DOM**************//
 //************************************//
 
-//use .map() to pass the array of firstYears thru arrayAsCards function, which uses interpolation to put the name and (
+//use .map() to pass the array of firstYears thru arrayAsCards function, which uses interpolation to put the name and house on the bootstrap card
 //(TODOLIST) add delete button to the card
 const cardsOnDom = (array) => {
   let domString = "";
@@ -65,12 +65,28 @@ const cardsOnDom = (array) => {
 <div class="card-body" style="border: 2px solid black; border-radius: 5px;">
   <h5 class="card-title">${person.name}</h5>
   <p class="card-text">${person.house}</p>
-  <a href="#" class="btn btn-primary">Delete (placeholder for now)</a>
+  <a href="#" class="btn btn-primary" id="expel--${person.id}">Expel</a>
 </div>
 </div>`;
   };
   array.map(arrayAsCards);
   document.querySelector("#cards").innerHTML = domString;
+};
+
+//alterntive cardsOnDom for my expelled students to pass through
+const expelledCardsOnDom = (array) => {
+  let expelledDomString = "";
+  const arrayAsCards = (person) => {
+    expelledDomString += `<div class="card" style="width: 18rem;">
+<div class="card-body" style="border: 2px solid black; border-radius: 5px;">
+  <h5 class="card-title">${person.name}</h5>
+  <p class="card-text"></p>
+  <p class="card-text"> Oh no! ${person.name} went to the dark side.</p>
+</div>
+</div>`;
+  };
+  array.map(arrayAsCards);
+  document.querySelector("#expelledCards").innerHTML += expelledDomString;
 };
 
 //************************************//
@@ -92,7 +108,7 @@ const filter = (array, house) => {
 };
 
 //////connect the html house buttons to the JS
-const allButton = document.getElementById("all");
+const allButton = document.querySelector("#all");
 const gryffindorButton = document.getElementById("gryffindor");
 const hufflepuffButton = document.getElementById("hufflepuff");
 const ravenclawButton = document.getElementById("ravenclaw");
@@ -100,7 +116,7 @@ const slytherinButton = document.getElementById("slytherin");
 
 /////event listeners for buttons
 
-//all button... //nervous about this for after a student is expelled? (todolist)
+//all button... //nervous about this for after a student is expelled? (todolist) --.readme says sort should just be for non-expelled students
 allButton.addEventListener("click", () => {
   cardsOnDom(firstYears);
 });
@@ -165,6 +181,7 @@ introButton.addEventListener("click", () => {
 
   //default cards
   cardsOnDom(firstYears);
+  document.querySelector("#cards").style.display = "block";
 
   //////////////////////////////////////////
   ////////////////submitting the form///////
@@ -211,4 +228,38 @@ introButton.addEventListener("click", () => {
   });
 });
 
-///expel (TODOLIST)
+//************************************//
+//******* EXPEL***********************//
+//************************************//
+
+//target the cards div
+const cards = document.querySelector("#cards");
+
+//add event listener to capture clicks
+
+cards.addEventListener("click", (e) => {
+  //think of 'e' as as HERE is the click is happening
+
+  //target the specific expel button (since there are multiple on the page)
+  //.target is part of JavaScript, specifically within the Event object, which is automatically provided when an event occurs (like a click or key press). When an event happens, the event handler function receives an Event object (in this case, 'e'), which contains information about the event, including .target.
+  if (e.target.id.includes("expel")) {
+    //destructuring:
+    //const [, id]: the comma is a placeholder, indicating that the first value of the array is ignored. The second value (whatever is after the "--") is assigned to the const "id," which we are also delcaring here
+    //above, in the cards, the expel button's ID is: id="expel--${firstYears.id}". with e.taget.id, we are retrieving that, and we are splitting it at the --, which gives us the array [expel, #].
+    //we assign const id = #
+    //we're basically just getting the # id of the card who's expel button we clicked, and assigning that to const id
+    const [, id] = e.target.id.split("--");
+    //The findIndex() method of Array instances returns the index of the first element in an array that satisfies the provided testing function. If no elements satisfy the testing function, -1 is returned.
+    //so here, we are finding the first instance that a firstYears id matches the const id that we assigned in the previous step). And we are assigning that to the const "index"
+    //// Number() just makes sure id is converted to a number (if it's not already)
+    //tldr: we're finding where the id of an obj in firstYears matches the id of where we clicked, and assigning that to const index
+    const index = firstYears.findIndex((e) => e.id === Number(id));
+    //remove index (which we just declared and assigned in the previous step) from the array, and assign it to const removed
+    ////splice can do other things, but in this case (X, #) or for us (index, 1), X is the position of the item to remove, and # is the number of elements to remove, starting from X.
+    //also we assign the thing that we removed to a const "removed", so that we can pass it into expelledCardsOnDom
+    const removed = firstYears.splice(index, 1);
+    //now let's repaint the DOM with our firstYears and our expelled
+    cardsOnDom(firstYears);
+    expelledCardsOnDom(removed);
+  }
+});
