@@ -2,7 +2,7 @@
 
 Sorting Hat allows the user to enter their name and get assigned a random Hogwarts house. The user can also sort first years by house or display by all houses. First years can be "expelled," and moved over to Voldermort's army.
 
-[View App]https://alyssa-sorting-hat.netlify.app/#
+[View App] (https://alyssa-sorting-hat.netlify.app/#)
 
 ## Features <!-- List your app features using bullets! Do NOT use a paragraph. No one will read that! -->
 
@@ -26,4 +26,4 @@ https://www.loom.com/share/f90ed846087a48809757a1f5a447ac2f?sid=0ec9075e-ca49-43
 
 ## Contributors
 
-- [Alyssa Cleland] https://github.com/alyssacleland
+- [Alyssa Cleland] (https://github.com/alyssacleland)
