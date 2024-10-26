@@ -41,6 +41,7 @@ const renderToDom = (element) => {
 renderToDom(`<div class="card text-center">
       <div class="card-header">Welcome</div>
       <div class="card-body">
+        <img src="https://img.freepik.com/premium-photo/sorting-hat-transparent-isolated-icon-generative-ai_894067-7445.jpg?w=1380" style= "width: 100px; height: auto;" class="card-img-top" alt="Sorting Hat Image" />
         <h5 class="card-title">Sorting Hat</h5>
         <p class="card-text">
           Are you ready to discover your Hogwarts house?
